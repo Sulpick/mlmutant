@@ -24,6 +24,7 @@
 ## Sobre ml mutant
 
 Este micro servicio se encarga de una secuencia de ADN y determinar si pertenece a un humano o mutante. Esta información es almacenada en mongoDB.
+
 ## Frameworks
 
 * Node.js   - [https://nodejs.org/](https://nodejs.org/)
@@ -36,22 +37,75 @@ Lista de las variables necesarias para el correcto despliegue del microservicio
 ​
 ## Requerimientos
 
-* Docker
-* Docker compose
+### Local
+* NodeJs v12.x
+* MongoDB v4.4.x
 * Curl
+
+### Docker
+* Docker
+* Docker-compose
+* Curl
+
+### Cloud
+* gcloud
+
+### Opcionales
 * Artillery
 
-## Instrucciones para ejecutar el servicio
+## Instrucciones para levantar el servicio
 
-```zsh
-# Run normally
+```sh
+# Local
+$ npm install
 $ npm start
+
+# Docker
+$ docker-compose build
+$ docker-compose up -d
+
+# Appengine
+$ gcloud app deploy
 ```
 
 ## Instrucciones para ejecutar las pruebas unitarias
 
-```zsh
+```sh
 # Test
 $ npm run test                           # Run all test
 $ npm run test:coverage
+```
+
+## Instrucciones para consumir el servicio local
+
+```sh
+curl --location --request POST 'localhost:8080/mutant/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "dna": [
+        "ATGCGA",
+        "CAGTGC",
+        "TTATGT",
+        "AGAAGG",
+        "CCCCTA",
+        "TCACTG"
+    ]
+}'
+```
+
+## Instrucciones para consumir el servicio en appengine
+
+```sh
+curl --location --request POST 'https://ml-mutant-dot-ml-mutant.uk.r.appspot.com/mutant/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "dna": [
+        "ATGCGA",
+        "CAGTGC",
+        "TTATGT",
+        "AGAAGG",
+        "CCCCTA",
+        "TCACTG"
+    ]
+}'
 ```

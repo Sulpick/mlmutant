@@ -1,18 +1,19 @@
-const MongoClient = require('mongodb').MongoClient;
-const { logger } = require('../services/logger'); 
-require('dotenv').config();
+const MongoClient = require("mongodb").MongoClient;
+const { logger } = require("../services/logger");
+require("dotenv").config();
 var db = null;
 const start = async () => {
   const options = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    connectTimeoutMS: 1000,
   };
 
   try {
     const mongo = new MongoClient(process.env.MONGO_URL, options);
     await mongo.connect().then(() => {
-      logger.info('Conectado exitosamente a MongoDB');
-      db = mongo.db('mlmutant');
+      logger.info("Conectado exitosamente a MongoDB");
+      db = mongo.db("mlmutant");
     });
   } catch (error) {
     console.error(error);
@@ -26,7 +27,6 @@ const getDb = async () => {
   }
   return db;
 };
-
 
 module.exports = {
   start,
