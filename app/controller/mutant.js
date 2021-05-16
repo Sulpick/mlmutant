@@ -1,12 +1,22 @@
 const { isMutant } = require('../services/mutant');
 const { searchAndInsert } = require('../utils/database');
-const { logger } = require('../services/logger');
+const { mutantSchema } = require('../schema/mutantSchema');
 
 const mutant = async (ctx) => {
   const { body } = ctx.request;
-  const { dna } = body;
+  const validateBody = mutantSchema.validate(body);
+
+  if (validateBody.error || ctx.request.body.length == 0) {
+    const data = {
+      cause: validateBody.error ? validateBody.error.message : 'Payload Empty',
+    }
+    ctx.body = data;
+    ctx.status = 400;
+    return ctx;
+  }
 
   try {
+    const { dna } = body;
     if (isMutant(dna)) {
       const result = await searchAndInsert(dna, 'mutants');
       ctx.status = 200;

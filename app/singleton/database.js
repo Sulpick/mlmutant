@@ -16,7 +16,7 @@ const start = async () => {
       db = mongo.db("mlmutant");
     });
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     process.exit();
   }
 };
