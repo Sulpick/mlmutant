@@ -1,0 +1,21 @@
+config:
+  target: 'http://006af635d21f.ngrok.io'
+  phases:
+  - duration: 1
+    arrivalRate: 1000
+
+scenarios:
+  - flow:
+      - post: 
+          url: '/mutant/'
+          json: {
+            "dna": [
+                "ATGCGA",
+                "CAGTGC",
+                "TTATGT",
+                "AGAAGG",
+                "CCCCTA",
+                "TCACTG"
+            ]
+          }
+        
