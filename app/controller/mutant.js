@@ -1,6 +1,7 @@
 const { isMutant } = require('../services/mutant');
 const { searchAndInsert } = require('../utils/database');
 const { mutantSchema } = require('../schema/mutantSchema');
+const { logger } = require('../services/logger');
 
 const mutant = async (ctx) => {
   const { body } = ctx.request;
