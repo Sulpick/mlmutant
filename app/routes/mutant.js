@@ -1,6 +1,7 @@
 const Router = require('koa-router');
-const router = new Router({})
 const { mutant } = require('../controller/mutant');
+
+const router = new Router({});
 
 router.post('/mutant/', mutant);
 

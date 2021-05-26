@@ -1,10 +1,9 @@
-#un ambiente provee las variables globales predefinidas 
+#un ambiente provee las variables globales predefinidas
 #los ambientes disponibles son los siguientes
 env:
   #browser global variables
-  browser: false 
-  #duda sobre esta opcion, pq esta en true?
-  commonjs: true
+  browser: false
+  #commonjs: true
   es2021: true
   node: true
 extends:
@@ -14,7 +13,10 @@ plugins:
   - jest
 parserOptions:
   ecmaVersion: 12
-rules: { 
-
-}
+rules:
+    # jest/no-disabled-tests: "warn"
+    # jest/no-focused-test: "error"
+    # jest/no-identical-title: "error"
+    jest/prefer-to-have-length: "warn"
+    # jest/valid-expect: "error"
 
