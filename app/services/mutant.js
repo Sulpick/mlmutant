@@ -1,8 +1,15 @@
+const isMutationPresent = (dna, regex) => {
+  if (dna.join('').match(regex)) {
+    return true;
+  }
+  return false;
+};
+
 const createMatrix = (dnaArray) => {
   const matrix = [];
 
   dnaArray.forEach((actual) => {
-    matrix.push(actual.split(""));
+    matrix.push(actual.split(''));
   });
 
   return matrix;
@@ -15,28 +22,21 @@ const isSafe = (x, y, size) => {
   return false;
 };
 
-const checkCounter = (counter) => {
-  if (counter >= 2) {
-    return true;
-  }
-  return false;
-};
-
 const checkOblique = (mutations, regex) => {
   let mutationsCounter = 0;
 
   const { principal, second, third } = mutations;
 
   if (isMutationPresent(principal, regex)) {
-    mutationsCounter++;
+    mutationsCounter += 1;
   }
 
   if (isMutationPresent(second, regex)) {
-    mutationsCounter++;
+    mutationsCounter += 1;
   }
 
   if (isMutationPresent(third, regex)) {
-    mutationsCounter++;
+    mutationsCounter += 1;
   }
 
   return mutationsCounter;
@@ -52,7 +52,7 @@ const getMutations = (matrix, regex) => {
   let column = [];
   let row = [];
 
-  for (let i = 0; i < matrix.length; i++) {
+  for (let i = 0; i < matrix.length; i += 1) {
     oblique.push(matrix[i][i]);
 
     if (isSafe(i, i + 1)) {
@@ -62,20 +62,20 @@ const getMutations = (matrix, regex) => {
       obliqueThird.push(matrix[i + 2][i]);
     }
 
-    for (let j = 0; j < matrix.length; j++) {
+    for (let j = 0; j < matrix.length; j += 1) {
       column.push(matrix[j][i]);
       row.push(matrix[i][j]);
     }
 
     if (isMutationPresent(column, regex)) {
-      mutationsCounter++;
+      mutationsCounter += 1;
     }
 
     if (isMutationPresent(row, regex)) {
-      mutationsCounter++;
+      mutationsCounter += 1;
     }
 
-    if (checkCounter(mutationsCounter)) {
+    if (mutationsCounter > 2) {
       return mutationsCounter;
     }
 
@@ -93,18 +93,12 @@ const getMutations = (matrix, regex) => {
   return mutationsCounter;
 };
 
-const isMutationPresent = (dna, regex) => {
-  if (dna.join("").match(regex)) {
-    return true;
-  }
-};
-
 const isMutant = (dna) => {
   const regex = /([ATCG])\1{3}/g;
   const matrix = createMatrix(dna);
   const mutationsCounter = getMutations(matrix, regex);
 
-  if (checkCounter(mutationsCounter)) {
+  if (mutationsCounter > 2) {
     return true;
   }
 
@@ -115,7 +109,6 @@ module.exports = {
   isMutationPresent,
   isMutant,
   getMutations,
-  checkCounter,
   checkOblique,
   isSafe,
   createMatrix,
