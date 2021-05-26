@@ -21,15 +21,4 @@ describe('Unit tests for database methods', () => {
     const result = await database.findAndInsert('test', {});
     expect(result).toEqual('This is a test :)');
   });
-  it('Should find one on database', async () => {
-    mongoClient.db = mongoMocks.mockFindOne;
-    const result = await database.findOne('test', {});
-    expect(result).toEqual({ result: 'This is a test :)' });
-  });
-
-  it('Should insert one on database', async () => {
-    mongoClient.db = mongoMocks.mockInsertOne;
-    const result = await database.insertOne('test', {});
-    expect(result).toEqual(['This is a test :)', 'Dummy ops']);
-  });
 });
