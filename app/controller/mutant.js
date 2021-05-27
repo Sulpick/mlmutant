@@ -1,10 +1,13 @@
 const { isMutant } = require('../services/mutant');
+const { solveDna } = require('../services/dna');
 const { findAndInsert } = require('../utils/database');
 const { mutantSchema } = require('../schema/mutantSchema');
 const { logger } = require('../services/logger');
 
 // eslint-disable-next-line consistent-return
 const mutant = async (ctx) => {
+  solveDna();
+
   const { body } = ctx.request;
   const validateBody = mutantSchema.validate(body);
 
