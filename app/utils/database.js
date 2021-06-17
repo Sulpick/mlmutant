@@ -35,20 +35,18 @@ const getDatabase = () => {
   return client;
 };
 
-const findAndInsert = async (collection, query) => {
+const findAndInsert = async (collection, dna) => {
   const database = await getDatabase();
-  const search = await database.db.collection(collection).findOne(query);
+  const search = await database.db().collection(collection).findOne({ dna });
 
   if (!search) {
-    const { ops } = await database.db.collection(collection).insertOne({ query });
+    const { ops } = await database.db().collection(collection).insertOne({ dna });
     return ops[0];
   }
   return search;
 };
 
 module.exports = {
-  // insertOne,
-  // findOne,
   findAndInsert,
   start,
   getDatabase,
