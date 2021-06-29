@@ -1,3 +1,6 @@
+/* eslint-disable dot-notation */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-param-reassign */
 const { MongoClient } = require('mongodb');
 const { logger } = require('../services/logger');
 require('dotenv').config();
@@ -28,6 +31,13 @@ const start = () => {
   return client;
 };
 
+const deleteId = (object) => {
+  if (object._id) {
+    delete object['_id'];
+  }
+  return object;
+};
+
 const getDatabase = () => {
   if (!client) {
     start();
@@ -37,18 +47,16 @@ const getDatabase = () => {
 
 const findAndInsert = async (collection, query) => {
   const database = await getDatabase();
-  const search = await database.db.collection(collection).findOne(query);
+  const search = await database.db().collection(collection).findOne({ dna: query });
 
   if (!search) {
-    const { ops } = await database.db.collection(collection).insertOne({ query });
-    return ops[0];
+    const { ops } = await database.db().collection(collection).insertOne({ dna: query });
+    return deleteId(ops[0]);
   }
-  return search;
+  return deleteId(search);
 };
 
 module.exports = {
-  // insertOne,
-  // findOne,
   findAndInsert,
   start,
   getDatabase,
