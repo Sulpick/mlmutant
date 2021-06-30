@@ -5,3 +5,4 @@ instance_class: F2
 env_variables:
     LOG_LEVEL: 'info'
     MONGO_DB_URL: mongodb+srv://dummy:password@cluster0.7lo64.mongodb.net/dummyDatabase?retryWrites=true&w=majority
+    PORT: 8080
