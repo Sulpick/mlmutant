@@ -47,10 +47,10 @@ const getDatabase = () => {
 
 const findAndInsert = async (collection, dna) => {
   const database = await getDatabase();
-  const search = await database.db().collection(collection).findOne({ dna: query });
+  const search = await database.db().collection(collection).findOne({ dna });
 
   if (!search) {
-    const { ops } = await database.db().collection(collection).insertOne({ dna: query });
+    const { ops } = await database.db().collection(collection).insertOne({ dna });
     return deleteId(ops[0]);
   }
   return deleteId(search);
