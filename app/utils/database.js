@@ -2,8 +2,10 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 const { MongoClient } = require('mongodb');
+const GCD = require('compute-gcd');
 const { logger } = require('../services/logger');
 const { collections } = require('../constants/collections');
+
 require('dotenv').config();
 
 /**
@@ -99,10 +101,14 @@ const findCount = async () => {
     mutantRate += count;
   });
 
+  const gcd = GCD(humanRate, mutantRate);
+  const calcHuman = humanRate / gcd;
+  const calcMutant = mutantRate / gcd;
+
   return {
     count_mutant_dna: mutantRate,
     count_human_dna: humanRate,
-    ratio: humanRate !== 0 ? (mutantRate / humanRate) : 1,
+    ratio: humanRate !== 0 ? (calcMutant / (calcHuman + calcMutant)).toFixed(2) : 1,
   };
 };
 

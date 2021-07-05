@@ -42,7 +42,7 @@ const mutant = async (ctx) => {
 
 const stats = async (ctx) => {
   const result = await findCount();
-  ctx.status = 200;
+  ctx.status = statusCodes.OK;
   ctx.body = { stats: result };
 };
 
