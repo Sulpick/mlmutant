@@ -1,6 +1,7 @@
 const { solveDna } = require('../services/dna');
-const { findAndInsert } = require('../utils/database');
+const { findAndInsert, findCount } = require('../utils/database');
 const { statusCodes } = require('../constants/httpStatus');
+const { collections } = require('../constants/collections');
 const { mutantSchema } = require('../schema/mutantSchema');
 const { logger } = require('../services/logger');
 
@@ -23,11 +24,11 @@ const mutant = async (ctx) => {
     const { dna } = body;
     const result = solveDna(dna);
     if (result.length >= 2) {
-      const query = await findAndInsert('mutants', dna);
+      const query = await findAndInsert(collections.MUTANTS, dna);
       ctx.status = statusCodes.OK;
       ctx.body = { type: 'mutant', information: query };
     } else {
-      const query = await findAndInsert('humans', dna);
+      const query = await findAndInsert(collections.HUMANS, dna);
       ctx.body = { type: 'human', information: query };
       ctx.status = statusCodes.FORBIDDEN;
     }
@@ -39,6 +40,13 @@ const mutant = async (ctx) => {
   }
 };
 
+const stats = async (ctx) => {
+  const result = await findCount();
+  ctx.status = statusCodes.OK;
+  ctx.body = { stats: result };
+};
+
 module.exports = {
   mutant,
+  stats,
 };
